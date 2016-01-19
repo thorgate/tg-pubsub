@@ -30,8 +30,7 @@ setup(
     packages=[
         'tg_pubsub',
     ],
-    package_dir={'tg_pubsub':
-                 'tg_pubsub'},
+    package_dir={'tg_pubsub': 'tg_pubsub'},
     include_package_data=True,
     install_requires=requirements,
     dependency_links=[
