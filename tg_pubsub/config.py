@@ -16,3 +16,22 @@ def get_control_server_host():
 
 def get_control_server_port():
     return getattr(settings, 'TG_PUBSUB_PORT', 8090)
+
+
+def get_hello_packets():
+    from .messages import BaseMessage
+
+    packets = getattr(settings, 'TG_PUBSUB_HELLO_PACKETS', [])
+    res = []
+
+    assert isinstance(packets, (list, tuple)) and all([isinstance(p, (list, tuple)) for p in packets])
+
+    for path, kwargs in packets:
+        assert isinstance(kwargs, dict)
+
+        klass = import_string(path)
+        assert issubclass(klass, BaseMessage)
+
+        res.append(klass(**kwargs))
+
+    return res

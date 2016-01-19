@@ -19,7 +19,7 @@ except ImportError:  # pragma: no cover
 
 from . import pubsub
 
-from .config import get_protocol_handler_klass
+from .config import get_protocol_handler_klass, get_hello_packets
 from .messages import registry
 
 
@@ -65,10 +65,22 @@ class WebSocketHandler(object):
 
     @asyncio.coroutine
     def run(self):
-        yield from self.model_changes()
+        yield from self.send_hello()
+        yield from self.send_on_change()
 
     @asyncio.coroutine
-    def model_changes(self):
+    def send_hello(self):
+        packets = get_hello_packets()
+
+        self.logger.debug("Sending %d hello packets", len(packets))
+
+        for packet in packets:
+            yield from self.ws.send(packet.prepare_for_send(self.ws, packet.data))
+
+        self.logger.debug("Hello packets sent", len(packets))
+
+    @asyncio.coroutine
+    def send_on_change(self):
         # Create Redis connection, subscribe channels
         self.logger.debug("Entering main Redis loop")
         r = pubsub.create_redis_connection()
