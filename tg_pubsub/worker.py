@@ -7,6 +7,8 @@ import websockets
 from django.contrib.auth.models import AnonymousUser
 from django.utils.encoding import force_text
 
+from .exceptions import InvalidMessageException, IgnoreMessageException
+
 try:
     from django.apps import apps
 
@@ -18,6 +20,7 @@ except ImportError:  # pragma: no cover
 from . import pubsub
 
 from .config import get_protocol_handler_klass
+from .messages import registry
 
 
 logger = logging.getLogger('tg_pubsub.server')
@@ -81,22 +84,44 @@ class WebSocketHandler(object):
                 yield from asyncio.sleep(1.0)
                 continue
 
-            model_path, action, instance_id = force_text(msg['data']).split(':')
-            self.logger.debug("Got update from Redis: %s", msg)
+            try:
+                self.logger.debug("Got update from Redis: %s", msg)
+                identifier, data = self.message_valid(msg)
 
-            model = get_model(*model_path.split('-'))
-            inst = model.objects.get(pk=instance_id)
-
-            if not inst.has_access(self.ws.user):
-                self.logger.debug("Ignoring update on %s:%s:%s, not authorized", model_path, action, instance_id)
+            except InvalidMessageException:
                 continue
 
-            yield from self.ws.send({
-                'model': model_path.replace('-', '.'),
-                'action': action,
-                'pk': instance_id,
-                'data': inst.serialize(),  # This should always be defined
-            })
+            else:
+                try:
+                    yield from self.ws.send(identifier.prepare_for_send(self.ws, data))
+
+                except IgnoreMessageException as e:
+                    self.logger.debug('%s' % e)
+
+    @classmethod
+    def message_valid(cls, message):
+        msg_data = force_text(message['data'])
+
+        if not msg_data or ':' not in msg_data:
+            raise InvalidMessageException()
+
+        identifier, data = force_text(msg_data).split(':', 1)
+
+        if not (identifier and data):
+            raise InvalidMessageException()
+
+        # Only accept valid identifiers
+        if identifier not in registry.keys():
+            raise InvalidMessageException()
+
+        # Parse the message body
+        try:
+            data = json.loads(data)
+
+        except:
+            raise InvalidMessageException()
+
+        return registry[identifier], data
 
 
 @asyncio.coroutine

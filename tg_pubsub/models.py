@@ -5,8 +5,7 @@ from django.dispatch import receiver
 
 from rest_framework.serializers import ModelSerializer
 
-from . import pubsub
-
+from .messages import ModelChanged
 
 logger = logging.getLogger('tg_pubsub')
 
@@ -53,17 +52,9 @@ def model_changed(cls, action, instance):
         if not cls.should_notify(instance, action):
             return
 
-        # We publish to `django`, `django:app_name-model_name`, `django:app_name-model_name:action`
-        channels = ['django', '%s-%s' % (cls._meta.app_label, cls._meta.object_name), action, str(instance.id)]
+        logging.info("model_changed(): %s-%s:%s:%s", cls._meta.app_label, cls._meta.object_name, action, str(instance.id))
 
-        logging.info("model_changed(): %s", ':'.join(channels[1:]))
-
-        for k in range(1, len(channels)):
-            channel = channels[0:k]
-            message = channels[k:]
-
-            # Publish to each channel
-            pubsub.publish(':'.join(channel), ':'.join(message))
+        ModelChanged(cls, action, instance).publish()
 
     except Exception as e:
         logging.warning("Exception in model_changed(%s, %s, %s: %s): %s", cls, action, type(instance), getattr(instance, 'id', '-'), e)
