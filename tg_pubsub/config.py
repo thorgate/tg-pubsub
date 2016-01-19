@@ -26,13 +26,13 @@ def get_hello_packets():
 
     assert isinstance(packets, (list, tuple))
 
-    for path, kwargs in packets:
+    for path in packets:
         fn = import_string(path)
 
         assert callable(fn)
 
         instance = fn()
-        assert issubclass(instance, BaseMessage)
+        assert isinstance(instance, BaseMessage)
 
         res.append(instance)
 

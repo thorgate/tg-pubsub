@@ -77,7 +77,7 @@ class WebSocketHandler(object):
         for packet in packets:
             yield from self.ws.send(packet.prepare_for_send(self.ws, packet.data))
 
-        self.logger.debug("Hello packets sent", len(packets))
+        self.logger.debug("Sent %d hello packets", len(packets))
 
     @asyncio.coroutine
     def send_on_change(self):
