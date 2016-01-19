@@ -24,14 +24,16 @@ def get_hello_packets():
     packets = getattr(settings, 'TG_PUBSUB_HELLO_PACKETS', [])
     res = []
 
-    assert isinstance(packets, (list, tuple)) and all([isinstance(p, (list, tuple)) for p in packets])
+    assert isinstance(packets, (list, tuple))
 
     for path, kwargs in packets:
-        assert isinstance(kwargs, dict)
+        fn = import_string(path)
 
-        klass = import_string(path)
-        assert issubclass(klass, BaseMessage)
+        assert callable(fn)
 
-        res.append(klass(**kwargs))
+        instance = fn()
+        assert issubclass(instance, BaseMessage)
+
+        res.append(instance)
 
     return res
