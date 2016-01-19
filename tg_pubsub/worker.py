@@ -100,7 +100,7 @@ class WebSocketHandler(object):
 
 
 @asyncio.coroutine
-def client_handler(ws, path, request):
+def client_handler(ws, path, request=None):
     handler = WebSocketHandler(ws, request)
 
     yield from handler.run()
