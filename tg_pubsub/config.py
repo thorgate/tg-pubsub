@@ -1,6 +1,5 @@
-from importlib import import_module
-
 from django.conf import settings
+from django.utils.module_loading import import_string
 
 
 def get_protocol_handler():
@@ -8,7 +7,7 @@ def get_protocol_handler():
 
 
 def get_protocol_handler_klass():
-    return import_module(get_protocol_handler())
+    return import_string(get_protocol_handler())
 
 
 def get_control_server_host():
