@@ -1,0 +1,4 @@
+-r requirements_dev.txt
+
+pytest==2.8.5
+pytest-django==2.9.1
