@@ -9,14 +9,6 @@ from django.utils.encoding import force_text
 
 from .exceptions import InvalidMessageException, IgnoreMessageException
 
-try:
-    from django.apps import apps
-
-    get_model = apps.get_model
-
-except ImportError:  # pragma: no cover
-    from django.db.models import get_model
-
 from . import pubsub
 
 from .config import get_protocol_handler_klass, get_hello_packets

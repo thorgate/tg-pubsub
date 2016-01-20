@@ -7,14 +7,6 @@ from django.conf import settings
 from django.contrib.auth.middleware import get_user
 from django.utils.functional import SimpleLazyObject
 
-try:
-    from django.apps import apps
-
-    get_model = apps.get_model
-
-except ImportError:  # pragma: no cover
-    from django.db.models import get_model
-
 
 class FakeRequest(object):
     def __init__(self, path, session_key):

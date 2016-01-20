@@ -1,15 +1,8 @@
 import json
 
-try:
-    from django.apps import apps
-
-    get_model = apps.get_model
-
-except ImportError:  # pragma: no cover
-    from django.db.models import get_model
-
-
 from . import pubsub
+
+from .config import get_model, extra_models
 from .exceptions import IgnoreMessageException
 
 
@@ -63,10 +56,23 @@ class ModelChanged(BaseMessage):
 
     @classmethod
     def prepare_for_send(cls, ws, data):
+        from .models import ListenableModelMixin
+
+        model_path = '%s.%s' % (data['app'], data['model'])
         model = get_model(data['app'], data['model'])
         inst = model.objects.get(pk=data['pk'])
 
-        if not inst.has_access(ws.user):
+        if issubclass(model, ListenableModelMixin):
+            has_access = inst.has_access
+
+        else:
+            if model_path in extra_models:
+                has_access = extra_models[model_path].has_access
+
+            else:
+                raise Exception('Model %s is not listenable' % model)
+
+        if not has_access(inst, ws.user):
             raise IgnoreMessageException("Ignoring update on %s.%s:%s:%s, not authorized" % (data['app'], data['model'],
                                                                                              data['action'],data['pk']))
 
@@ -74,7 +80,7 @@ class ModelChanged(BaseMessage):
             'model': '%s.%s' % (data['app'], data['model']),
             'action': data['action'],
             'pk': data['pk'],
-            'data': inst.serialize(),
+            'data': inst.pubsub_serialize(inst, inst.get_serializer()),
         }
 
 
