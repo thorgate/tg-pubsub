@@ -6,6 +6,7 @@ import websockets
 
 from django.contrib.auth.models import AnonymousUser
 from django.utils.encoding import force_text
+from rest_framework.utils import encoders
 
 from .exceptions import InvalidMessageException, IgnoreMessageException
 
@@ -43,7 +44,7 @@ class HandlerProtocol(object):
     @asyncio.coroutine
     def send(self, data):
         if isinstance(data, dict):
-            data = json.dumps(data)
+            data = json.dumps(data, cls=encoders.JSONEncoder)
 
         yield from self.socket.send(data)
 

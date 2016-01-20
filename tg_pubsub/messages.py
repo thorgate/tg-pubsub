@@ -1,5 +1,7 @@
 import json
 
+from rest_framework.utils import encoders
+
 from . import pubsub
 
 from .config import get_model, extra_models
@@ -21,7 +23,7 @@ class BaseMessage(object):
     def as_message(self):
         return ':'.join([
             self.MESSAGE_IDENTIFIER,
-            json.dumps(self.data),
+            json.dumps(self.data, cls=encoders.JSONEncoder),
         ])
 
     def publish(self):
@@ -64,10 +66,14 @@ class ModelChanged(BaseMessage):
 
         if issubclass(model, ListenableModelMixin):
             has_access = inst.has_access
+            pubsub_serialize = inst.pubsub_serialize
+            serializer = inst.get_serializer(inst)
 
         else:
             if model_path in extra_models:
                 has_access = extra_models[model_path].has_access
+                pubsub_serialize = extra_models[model_path].pubsub_serialize
+                serializer = extra_models[model_path].get_serializer(inst)
 
             else:
                 raise Exception('Model %s is not listenable' % model)
@@ -80,7 +86,7 @@ class ModelChanged(BaseMessage):
             'model': '%s.%s' % (data['app'], data['model']),
             'action': data['action'],
             'pk': data['pk'],
-            'data': inst.pubsub_serialize(inst, inst.get_serializer()),
+            'data': pubsub_serialize(inst, serializer),
         }
 
 

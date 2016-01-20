@@ -17,19 +17,27 @@ class ListenableBase(object):
     """ Base mixin that declares the api for listenables
     """
     serializer_class = None
+    serializer_fields = ('pk', )
+
+    def pubsub_get_model(self):
+        return self.__class__
 
     def get_serializer_class(self):
         """ Return the class to use for the serializer.
         """
+        if self.serializer_class is None:
+            class ListenableSerializer(ModelSerializer):
+                class Meta:
+                    model = self.pubsub_get_model()
+
+                    fields = self.serializer_fields
+
+            return ListenableSerializer
+
         return self.serializer_class
 
     def get_serializer(self, *args, **kwargs):
-        klass = self.get_serializer_class()
-
-        if klass is None:
-            return klass
-
-        return klass(*args, **kwargs)
+        return self.get_serializer_class()(*args, **kwargs)
 
     @classmethod
     def has_access(cls, instance, user):
@@ -41,35 +49,14 @@ class ListenableBase(object):
 
     @classmethod
     def pubsub_serialize(cls, instance, serializer):
-        if serializer is not None:
-            return serializer.to_representation(instance)
-
-        else:
-            return {
-                'pk': instance.pk,
-            }
+        return serializer.to_representation(instance)
 
 
 class ListenableModelMixin(ListenableBase):
     """ Mixin that will mark model as 'listenable'. Such models will send messages
         to Redis queue whenever they're updated.
     """
-    def pubsub_get_model(self):
-        return self.__class__
-
-    def get_serializer_class(self):
-        klass = super().get_serializer_class()
-
-        if klass is not None:
-            return klass
-
-        class ListenableSerializer(ModelSerializer):
-            class Meta:
-                model = self.pubsub_get_model()
-
-                fields = ('pk', )
-
-        return ListenableSerializer
+    pass
 
 
 class ModelListenConfig(ListenableModelMixin):
