@@ -17,11 +17,11 @@ def get_protocol_handler_klass():
     return import_string(get_protocol_handler())
 
 
-def get_control_server_host():
+def get_pubsub_server_host():
     return getattr(settings, 'TG_PUBSUB_HOST', 'localhost')
 
 
-def get_control_server_port():
+def get_pubsub_server_port():
     return getattr(settings, 'TG_PUBSUB_PORT', 8090)
 
 

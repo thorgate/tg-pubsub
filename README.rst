@@ -1,6 +1,6 @@
-===============================
+=========
 tg-pubsub
-===============================
+=========
 
 .. image:: https://img.shields.io/pypi/v/tg-pubsub.svg
         :target: https://pypi.python.org/pypi/tg-pubsub
@@ -13,7 +13,7 @@ tg-pubsub
         :alt: Documentation Status
 
 
-Easy pubsub for django
+Easy pubsub for django models using redis messaging que.
 
 * Free software: ISC license
 * Documentation: https://tg-pubsub.readthedocs.org (TODO).
@@ -21,10 +21,12 @@ Easy pubsub for django
 Features
 --------
 
-* TODO
+* Can mark own models as listenable
+* Can mark external models as listenable
+* Builtin control server
 
 Credits
----------
+-------
 
 This package was created with Cookiecutter_ and the `audreyr/cookiecutter-pypackage`_ project template.
 

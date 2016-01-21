@@ -4,12 +4,13 @@ from importlib import import_module
 from urllib.parse import parse_qs, urlparse
 
 from django.conf import settings
-from django.contrib.auth.middleware import get_user
 from django.utils.functional import SimpleLazyObject
 
 
 class FakeRequest(object):
     def __init__(self, path, session_key):
+        from django.contrib.auth.middleware import get_user
+
         self.session_key = session_key
 
         self.path = path
@@ -60,7 +61,7 @@ class SessionRequiredServerProtocol(RequestServerProtocol):
 
 
 class AnyUserServerProtocol(SessionRequiredServerProtocol):
-    """ WebSocketServerProtocol implementation that allows any users
+    """ WebSocketServerProtocol implementation that allows any users (that provide a token)
     """
 
     def has_permissions(self, request):

@@ -41,20 +41,39 @@ class ListenableBase(object):
 
     @classmethod
     def has_access(cls, instance, user):
+        """ Does the given user has access to the model instance. This can be used to only send model data to specific users.
+
+        (Note: The user may be anonymous)
+
+        :param instance: Model instance
+        :param user:     User connected via pubsub
+        :rtype: bool
+        """
         return True
 
     @classmethod
     def should_notify(cls, instance, action):
+        """ Should the given instance send out a change notification. This can be used to limit publishes to only specific instances.
+
+        :param instance: Model instance
+        :param action:   Action that triggered the notification (created, saved, deleted)
+        :rtype: bool
+        """
         return True
 
     @classmethod
     def pubsub_serialize(cls, instance, serializer):
+        """ Serialize the given model instance before sending it to the users.
+
+        :param instance: Model instance
+        :param serializer: Drf serializer
+        :return:
+        """
         return serializer.to_representation(instance)
 
 
 class ListenableModelMixin(ListenableBase):
-    """ Mixin that will mark model as 'listenable'. Such models will send messages
-        to Redis queue whenever they're updated.
+    """ Mixin that will mark model as 'listenable'. Such models will send messages to Redis queue whenever they're updated.
     """
     pass
 

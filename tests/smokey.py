@@ -12,7 +12,7 @@ def test_imports():
     from tg_pubsub import pubsub
     from tg_pubsub import worker
 
-    from tg_pubsub.management.commands.control_server import Command
+    from tg_pubsub.management.commands.pubsub_server import Command
 
     assert config.extra_models == {}
     assert config.extra_models == config.get_extra_models()

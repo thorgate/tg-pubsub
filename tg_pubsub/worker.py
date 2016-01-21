@@ -4,7 +4,6 @@ import logging
 
 import websockets
 
-from django.contrib.auth.models import AnonymousUser
 from django.utils.encoding import force_text
 from rest_framework.utils import encoders
 
@@ -33,6 +32,7 @@ class HandlerProtocol(object):
     @property
     def user(self):
         if self.request is None:
+            from django.contrib.auth.models import AnonymousUser
             return AnonymousUser()
 
         return self.request.user
@@ -136,8 +136,8 @@ def client_handler(ws, path, request=None):
     yield from handler.run()
 
 
-def run_control_server(host, port):
-    logger.info("Starting control server on %s:%d", host, port)
+def run_pubsub_server(host, port):
+    logger.info("Starting pubsub control server on %s:%d", host, port)
 
     start_server = websockets.serve(client_handler, host, port, klass=get_protocol_handler_klass())
 
