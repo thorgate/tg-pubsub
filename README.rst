@@ -16,7 +16,7 @@ tg-pubsub
 Easy pubsub for django models using redis messaging que.
 
 * Free software: ISC license
-* Documentation: https://tg-pubsub.readthedocs.org (TODO).
+* Documentation: https://tg-pubsub.readthedocs.org.
 
 Features
 --------
