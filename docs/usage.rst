@@ -48,7 +48,7 @@ model class. Returning False means the user won't get a push for a model that th
 Serialization
 -------------
 
-By default only the pk will be published by the control server to the clients. To add more model fields one
+By default only the pk will be published by the pubsub server to the clients. To add more model fields one
 can use ``serializer_fields`` attribute on the listenable model. However, this will only work if the added
 fields can be serialized to json (by drf) and are available as instance attributes.
 

@@ -5,7 +5,7 @@ from ...config import get_pubsub_server_host, get_pubsub_server_port
 
 
 class Command(BaseCommand):
-    help = "Runs websocket-based control server for pubsub."
+    help = "Runs websocket-based pubsub server"
     args = '[optional port number]'
 
     def handle(self, port='', *args, **options):

@@ -23,7 +23,7 @@ Features
 
 * Can mark own models as listenable
 * Can mark external models as listenable
-* Builtin control server
+* Builtin pubsub server
 
 Credits
 -------

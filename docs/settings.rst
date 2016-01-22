@@ -8,12 +8,12 @@ List of available settings
 TG_PUBSUB_HOST
 ~~~~~~~~~~~~~~
 
-Network interface on which the pubsub control server should bind to (default: ``localhost``).
+Network interface on which the pubsub server should bind to (default: ``localhost``).
 
 TG_PUBSUB_PORT
 ~~~~~~~~~~~~~~
 
-Port on which the pubsub control server should listen on (default: ``8090``).
+Port on which the pubsub server should listen on (default: ``8090``).
 
 TG_PUBSUB_EXTRA_MODELS
 ~~~~~~~~~~~~~~~~~~~~~~

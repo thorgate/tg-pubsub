@@ -137,7 +137,7 @@ def client_handler(ws, path, request=None):
 
 
 def run_pubsub_server(host, port):
-    logger.info("Starting pubsub control server on %s:%d", host, port)
+    logger.info("Starting pubsub server on %s:%d", host, port)
 
     start_server = websockets.serve(client_handler, host, port, klass=get_protocol_handler_klass())
 
