@@ -2,7 +2,7 @@
 About
 =====
 
-tg-pubsub provides easy pubsub for django models using redis messaging que
+tg-pubsub provides easy pubsub for django models using redis messaging queue
 
 Features
 --------

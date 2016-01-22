@@ -13,7 +13,7 @@ tg-pubsub
         :alt: Documentation Status
 
 
-Easy pubsub for django models using redis messaging que.
+Easy pubsub for django models using redis messaging queue.
 
 * Free software: ISC license
 * Documentation: https://tg-pubsub.readthedocs.org.

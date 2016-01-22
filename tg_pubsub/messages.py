@@ -27,7 +27,7 @@ class BaseMessage(object):
         ])
 
     def publish(self):
-        """ Publish message to redis que
+        """ Publish message to redis queue
         """
         message = self.as_message()
 

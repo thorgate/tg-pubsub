@@ -39,7 +39,7 @@ setup(
     ],
     license="ISCL",
     zip_safe=False,
-    keywords='tg-pubsub,tg_pubsub,pubsub,pub,sub,django',
+    keywords='tg-pubsub,tg_pubsub,pubsub,pub,sub,django,redis,queue',
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
         'Intended Audience :: Developers',
