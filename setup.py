@@ -21,7 +21,7 @@ requirements = [
 
 setup(
     name='tg-pubsub',
-    version='0.1.0',
+    version='0.1.1',
     description="Easy pubsub for django",
     long_description=readme + '\n\n' + history,
     author="Thorgate",
