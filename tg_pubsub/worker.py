@@ -1,6 +1,7 @@
 import asyncio
 import json
 import logging
+import time
 
 import websockets
 
@@ -11,7 +12,7 @@ from .exceptions import InvalidMessageException, IgnoreMessageException
 
 from . import pubsub
 
-from .config import get_protocol_handler_klass, get_hello_packets
+from .config import get_protocol_handler_klass, get_hello_packets, get_pubsub_server_ping_delta
 from .messages import registry
 
 
@@ -42,6 +43,10 @@ class HandlerProtocol(object):
         return 'tg_pubsub.handler-%s' % (self.user.pk or 'none')
 
     @asyncio.coroutine
+    def ping(self):
+        yield from self.socket.ping()
+
+    @asyncio.coroutine
     def send(self, data):
         if isinstance(data, dict):
             data = json.dumps(data, cls=encoders.JSONEncoder)
@@ -60,6 +65,10 @@ class WebSocketHandler(object):
     def run(self):
         yield from self.send_hello()
         yield from self.send_on_change()
+
+    @asyncio.coroutine
+    def ping(self):
+        yield from self.ws.ping()
 
     @asyncio.coroutine
     def send_hello(self):
@@ -82,7 +91,19 @@ class WebSocketHandler(object):
         # Subscribe to django channel.
         p.subscribe('django')
 
+        last = None
+
+        should_ping = get_pubsub_server_ping_delta()
+
         while self.ws.open:
+            now = time.time()
+
+            if should_ping:
+                if last is None or last < now - should_ping:
+                    self.logger.debug('send ping: last: %s, current_time: %s', last, now)
+                    last = now
+                    yield from self.ping()
+
             msg = p.get_message(ignore_subscribe_messages=True)
             if msg is None:
                 # If there was no message, sleep for one second, and try again

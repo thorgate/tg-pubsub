@@ -25,6 +25,10 @@ def get_pubsub_server_port():
     return getattr(settings, 'TG_PUBSUB_PORT', 8090)
 
 
+def get_pubsub_server_ping_delta():
+    return getattr(settings, 'TG_PUBSUB_PING_DELTA', 30)
+
+
 def get_hello_packets():
     """ Get all packets to send right after doing websocket handshake
 

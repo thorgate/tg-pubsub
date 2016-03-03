@@ -15,6 +15,11 @@ TG_PUBSUB_PORT
 
 Port on which the pubsub server should listen on (default: ``8090``).
 
+TG_PUBSUB_PING_DELTA
+~~~~~~~~~~~~~~~~~~~~
+
+Interval of periodical pings sent to clients, to disable pings set to False (default: ``30``).
+
 TG_PUBSUB_EXTRA_MODELS
 ~~~~~~~~~~~~~~~~~~~~~~
 
