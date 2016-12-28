@@ -23,7 +23,14 @@ deploy:
   provider: pypi
   user: thorgate
   password:
-    secure: IfhfF97V6Ojf+AybqKe01pP2n3T06rxJrx6+l+IMow2MzlS1KIQMxKYhQw+p/vGFb9HfHf8AXcJvoK0Mmf9LGY6jae4IG2u+esL2bHCo6TNJ+Th8gXMt+9DngdjRMqjiThzd88C0Ugk2wfBYHmAMjEoSCZr4a2hBOt9JghTphQuacM/A8ho8zgVQ3DRxrhKUhM3AcF9zhsigeEdjOr7Gukm0y65tleRe/D8Hyw7/h780XTWLmAlW9E076wNw6pfAN+jHh4EuaY8K5EayDZQLLfplwakk/JFryvdppCBmny+m7qtUC3yxqXpZV5msaH9N4MHV5igKo/RuQXnn8Jxmlf5Tf6JLl4vAXpDyQ4/zlZ2NavrQGCkiphdOhXgh9e3NxpYGZQU+LoOzxuoz1EdrRlNYzymQbIeYQ018kW0sBP9OZgLvbnIA2ND9bHK82DILdT1+9b4Ttq0oyaEeAXNRmovKYSePtzsMzEtvMw6aZhYVtJJlSjzZ3wjKfn3Opor+K1AC/70BfIU5WI6h4htCF0VV+KAWJiDgcHJRO//mTAcNv8Luxs1FyCJ/lEMqZO/YNQqweb6KvKOF5O/4z+kpi3NUC5trF15QwIhmrLner+xGweSEjulFkNfAD97LlJWBonN6fvkKWOHKRY5F5pbWgVVxDWGcBCHtOXDCOU8yipw=
+    secure: >
+      IfhfF97V6Ojf+AybqKe01pP2n3T06rxJrx6+l+IMow2MzlS1KIQMxKYhQw+p/vGFb9HfHf8AXcJvoK0Mmf9LGY6jae4IG2u+esL2bHCo6TNJ+
+      Th8gXMt+9DngdjRMqjiThzd88C0Ugk2wfBYHmAMjEoSCZr4a2hBOt9JghTphQuacM/A8ho8zgVQ3DRxrhKUhM3AcF9zhsigeEdjOr7Gukm0y6
+      5tleRe/D8Hyw7/h780XTWLmAlW9E076wNw6pfAN+jHh4EuaY8K5EayDZQLLfplwakk/JFryvdppCBmny+m7qtUC3yxqXpZV5msaH9N4MHV5ig
+      Ko/RuQXnn8Jxmlf5Tf6JLl4vAXpDyQ4/zlZ2NavrQGCkiphdOhXgh9e3NxpYGZQU+LoOzxuoz1EdrRlNYzymQbIeYQ018kW0sBP9OZgLvbnIA
+      2ND9bHK82DILdT1+9b4Ttq0oyaEeAXNRmovKYSePtzsMzEtvMw6aZhYVtJJlSjzZ3wjKfn3Opor+K1AC/70BfIU5WI6h4htCF0VV+KAWJiDgc
+      HJRO//mTAcNv8Luxs1FyCJ/lEMqZO/YNQqweb6KvKOF5O/4z+kpi3NUC5trF15QwIhmrLner+xGweSEjulFkNfAD97LlJWBonN6fvkKWOHKRY
+      5F5pbWgVVxDWGcBCHtOXDCOU8yipw=
   on:
     tags: true
     distributions: sdist bdist_wheel
