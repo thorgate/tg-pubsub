@@ -5,7 +5,7 @@ Credits
 Development Lead
 ----------------
 
-* Jürno Ader <jyrno@thorgate.eu>
+* Thorgate <code@thorgate.eu>
 
 Contributors
 ------------
