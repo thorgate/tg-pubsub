@@ -27,3 +27,6 @@ deploy:
     tags: true
     distributions: sdist bdist_wheel
     repo: thorgate/tg-pubsub
+
+notifications:
+    email: false
