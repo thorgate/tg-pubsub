@@ -11,22 +11,26 @@ env:
   - TOXENV=py35
   - TOXENV=py34
 
-deploy:
-  provider: pypi
-  user: thorgate
-  password:
-    secure: >
-      DRS6iY2zsHTyVcEbWXlNKYXPvCj200wF2V/qeyl8XyH0TQa0yhMjPSmi0D9MBQ5dMkB+StnWOFRx+64waOjVriQGgeMSKUBSZ53ff8+TrRm5o
-      d7EXa4EhA2LA6n+5+XHSkUZUKwa9QtC6OkvEmWA7wWdCvwC4wk+rC2PBkbk14YL7rYytKpRcJXo2PiEY/x8f8WT+CL4VtfbkdBI4zaxqlPel+
-      ssL9IlaJN3v6GCHw8ZUFmRfLgesqx9l6eQK9oh2UhYLoVegZ++GzRZbJKHKp+tEU7bXycMkUzVrgQQwQBbDzd5RitxOTvpwGgJyyWc0sAFp9y
-      3uYhkUMmw5BpO4NtsiDmDsYBDws6ikgDZGLtuA1b+ZiKEayJidOAf76BQ4KHortyEoivhW6qMmBKo45SSyz5fVFOlpRg7wcbe04fX8zIDXy0g
-      luCHVcXNXHPaLZkV4LyfkUfH6oP7WMTFZ2zolvQcY68QkHnVJIb0hsf4XdzIR2aUH1f+eMS7yE2dD4MByrDnWsDGSW3LRg3apw6qC5qPQiUxz
-      P5xYd18RYo8W2Z5RMuf/a3ayISxudBRXR1AU7aH3efaeyrFjGoU56s/dNylvVVIzbrIwz4UNQCCrEUSlm9bTTO1TgIiPRtu2zNDtrxr/wsRWs
-      rWAhBDCFsf4qacIGTZOXL5UhWRLXk=
-  on:
-    tags: true
-    distributions: sdist bdist_wheel
-    repo: thorgate/tg-pubsub
+jobs:
+  include:
+    - stage: deploy
+      env: TOXENV=py35
+      deploy:
+        provider: pypi
+        user: thorgate
+        password:
+          secure: >
+            DRS6iY2zsHTyVcEbWXlNKYXPvCj200wF2V/qeyl8XyH0TQa0yhMjPSmi0D9MBQ5dMkB+StnWOFRx+64waOjVriQGgeMSKUBSZ53ff8+TrRm5o
+            d7EXa4EhA2LA6n+5+XHSkUZUKwa9QtC6OkvEmWA7wWdCvwC4wk+rC2PBkbk14YL7rYytKpRcJXo2PiEY/x8f8WT+CL4VtfbkdBI4zaxqlPel+
+            ssL9IlaJN3v6GCHw8ZUFmRfLgesqx9l6eQK9oh2UhYLoVegZ++GzRZbJKHKp+tEU7bXycMkUzVrgQQwQBbDzd5RitxOTvpwGgJyyWc0sAFp9y
+            3uYhkUMmw5BpO4NtsiDmDsYBDws6ikgDZGLtuA1b+ZiKEayJidOAf76BQ4KHortyEoivhW6qMmBKo45SSyz5fVFOlpRg7wcbe04fX8zIDXy0g
+            luCHVcXNXHPaLZkV4LyfkUfH6oP7WMTFZ2zolvQcY68QkHnVJIb0hsf4XdzIR2aUH1f+eMS7yE2dD4MByrDnWsDGSW3LRg3apw6qC5qPQiUxz
+            P5xYd18RYo8W2Z5RMuf/a3ayISxudBRXR1AU7aH3efaeyrFjGoU56s/dNylvVVIzbrIwz4UNQCCrEUSlm9bTTO1TgIiPRtu2zNDtrxr/wsRWs
+            rWAhBDCFsf4qacIGTZOXL5UhWRLXk=
+        on:
+          tags: true
+          distributions: sdist bdist_wheel
+          repo: thorgate/tg-pubsub
 
 notifications:
     email: false
